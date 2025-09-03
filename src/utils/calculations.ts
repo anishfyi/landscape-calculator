@@ -1,16 +1,16 @@
-// Base costs in AED
+// Base costs in AED (matching spreadsheet)
 export const FEATURE_COSTS = {
   tiles: { cost: 300, unit: 'm²' },
-  pool: { cost: 3500, unit: 'unit', fixedUnits: 6 },
-  seating: { cost: 800, unit: 'unit' },
-  bar: { cost: 2500, unit: 'unit' },
-  pizzaOven: { cost: 4000, unit: 'unit' },
-  grill: { cost: 1500, unit: 'unit' },
-  fridge: { cost: 1200, unit: 'unit' },
-  pergola: { cost: 150, unit: 'm²' },
-  trees: { cost: 130, unit: 'unit' },
-  lighting: { cost: 80, unit: 'm²' },
-  artificialGrass: { cost: 120, unit: 'm²' }
+  pool: { cost: 5250, unit: 'unit', fixedUnits: 6 }, // 5250 × 6 = 31,500
+  seating: { cost: 600, unit: 'unit' },
+  bar: { cost: 600, unit: 'unit' },
+  pizzaOven: { cost: 9000, unit: 'unit' }, // binary = one unit
+  grill: { cost: 7500, unit: 'unit' },     // binary = one unit
+  fridge: { cost: 2250, unit: 'unit' },    // binary = one unit
+  pergola: { cost: 750, unit: 'm²' },
+  trees: { cost: 195, unit: 'unit' },
+  lighting: { cost: 45, unit: 'm²' },
+  artificialGrass: { cost: 75, unit: 'm²' }
 };
 
 export const BUDGET_MULTIPLIERS = {
@@ -66,14 +66,11 @@ export const calculateBaseCost = (inputs: CalculationInputs): number => {
     if (isSelected && FEATURE_COSTS[feature as keyof typeof FEATURE_COSTS]) {
       const featureCost = FEATURE_COSTS[feature as keyof typeof FEATURE_COSTS];
       
-      if (feature === 'pool') {
-        // Pool has fixed units
-        baseCost += featureCost.cost;
+      if (feature === 'pool' && 'fixedUnits' in featureCost) {
+        baseCost += featureCost.cost * featureCost.fixedUnits;
       } else if (featureCost.unit === 'm²') {
-        // Area-based features
         baseCost += featureCost.cost * inputs.size;
       } else {
-        // Per-unit features (assume 1 unit for simplicity)
         baseCost += featureCost.cost;
       }
     }
