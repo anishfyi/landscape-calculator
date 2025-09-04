@@ -34,10 +34,11 @@ export const CalculatorForm = ({ onCalculate, isCalculating }: CalculatorFormPro
   };
 
   const handleCalculate = () => {
-    if (!size || !budget) return;
+    const sizeNumber = parseFloat(size);
+    if (!size || !budget || !(sizeNumber > 0)) return;
     
     onCalculate({
-      size: parseFloat(size),
+      size: sizeNumber,
       features,
       budget: budget as "economic" | "standard" | "highEnd" | "superHighEnd"
     });
@@ -78,8 +79,24 @@ export const CalculatorForm = ({ onCalculate, isCalculating }: CalculatorFormPro
             placeholder="Enter size in square meters"
             value={size}
             onChange={(e) => setSize(e.target.value)}
+            min={0}
+            step="any"
+            onKeyDown={(e) => {
+              if (e.key === 'e' || e.key === 'E' || e.key === '+' || e.key === '-') {
+                e.preventDefault();
+              }
+            }}
+            onBlur={(e) => {
+              const n = parseFloat(e.target.value);
+              if (!Number.isNaN(n) && n < 0) {
+                setSize("0");
+              }
+            }}
             className="bg-input border-border focus:ring-primary"
           />
+          {size !== "" && parseFloat(size) <= 0 && (
+            <div className="text-xs text-destructive">Please enter a size greater than zero.</div>
+          )}
         </div>
 
         {/* Budget Selection */}
