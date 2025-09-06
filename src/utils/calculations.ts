@@ -122,3 +122,25 @@ export const formatCurrency = (amount: number, currency: 'AED' | 'USD'): string 
 export const toFixedDisplay = (value: number, fractionDigits = 3): string => {
   return Number.isFinite(value) ? value.toFixed(fractionDigits) : String(value);
 };
+
+export const buildShareUrl = (inputs?: {
+  size?: number;
+  features?: { [key: string]: boolean };
+  budget?: string;
+}): string => {
+  try {
+    const url = new URL(window.location.href);
+    const params = new URLSearchParams(url.search);
+    if (inputs) {
+      if (typeof inputs.size === 'number') params.set('size', String(inputs.size));
+      if (inputs.budget) params.set('budget', inputs.budget);
+      if (inputs.features) {
+        Object.entries(inputs.features).forEach(([k, v]) => params.set(k, v ? '1' : '0'));
+      }
+    }
+    url.search = params.toString();
+    return url.toString();
+  } catch {
+    return '';
+  }
+};
