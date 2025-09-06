@@ -1,7 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { formatCurrency } from "@/utils/calculations";
-import { Calendar, CreditCard, Home, TrendingUp } from "lucide-react";
+import { formatCurrency, toFixedDisplay } from "@/utils/calculations";
+import { Calendar, CreditCard, Home, TrendingUp, Copy, Download, Share2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { AnimatedNumber } from "./AnimatedNumber";
 
 interface PlanCardProps {
   title: string;
@@ -60,8 +62,8 @@ export const PlanCard = ({
         {/* Total Cost */}
         <div className="text-center p-4 bg-muted rounded-lg border border-border">
           <div className="text-sm text-muted-foreground mb-1">Total Cost</div>
-          <div className="text-2xl font-extrabold text-primary">
-            {formatCurrency(totalCost, currency)}
+          <div className="text-2xl font-extrabold text-primary" title={`Raw: ${toFixedDisplay(totalCost)}`}>
+            <AnimatedNumber value={totalCost} format={(n) => formatCurrency(n, currency)} ariaLabel="Total cost" />
           </div>
         </div>
 
@@ -72,8 +74,11 @@ export const PlanCard = ({
               <CreditCard className="h-4 w-4 text-muted-foreground" />
               <span className="text-sm font-medium text-foreground">Down Payment</span>
             </div>
-            <span className="font-semibold text-foreground">
-              {formatCurrency(downpayment, currency)}
+            <span
+              className="font-semibold text-foreground"
+              title={`Raw: ${toFixedDisplay(downpayment)}`}
+            >
+              <AnimatedNumber value={downpayment} format={(n) => formatCurrency(n, currency)} ariaLabel="Down payment" />
             </span>
           </div>
 
@@ -82,8 +87,11 @@ export const PlanCard = ({
               <Home className="h-4 w-4 text-muted-foreground" />
               <span className="text-sm font-medium text-foreground">Move-In Payment</span>
             </div>
-            <span className="font-semibold text-foreground">
-              {formatCurrency(moveIn, currency)}
+            <span
+              className="font-semibold text-foreground"
+              title={`Raw: ${toFixedDisplay(moveIn)}`}
+            >
+              <AnimatedNumber value={moveIn} format={(n) => formatCurrency(n, currency)} ariaLabel="Move in payment" />
             </span>
           </div>
 
@@ -92,14 +100,29 @@ export const PlanCard = ({
               <Calendar className="h-4 w-4 text-success" />
               <span className="text-sm font-medium text-success">EMI</span>
             </div>
-            <span className="font-bold text-success">
-              {formatCurrency(monthlyInstallment, currency)}
+            <span
+              className="font-bold text-success"
+              title={`Raw: ${toFixedDisplay(monthlyInstallment)}`}
+            >
+              <AnimatedNumber value={monthlyInstallment} format={(n) => formatCurrency(n, currency)} ariaLabel="Monthly installment" />
             </span>
           </div>
         </div>
 
         <div className="text-center text-xs text-muted-foreground pt-2 border-t border-border">
           {months} monthly payments of {formatCurrency(monthlyInstallment, currency)}
+        </div>
+
+        <div className="flex items-center justify-end gap-2 pt-1">
+          <Button variant="secondary" size="sm" aria-label="Copy result to clipboard">
+            <Copy className="h-3.5 w-3.5 mr-1" /> Copy
+          </Button>
+          <Button variant="secondary" size="sm" aria-label="Download results as comma separated values">
+            <Download className="h-3.5 w-3.5 mr-1" /> CSV
+          </Button>
+          <Button variant="secondary" size="sm" aria-label="Share results link">
+            <Share2 className="h-3.5 w-3.5 mr-1" /> Share
+          </Button>
         </div>
       </CardContent>
     </Card>

@@ -12,7 +12,7 @@ export const CurrencyToggle = ({ currency, onToggle }: CurrencyToggleProps) => {
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <div className="flex items-center gap-3 bg-gradient-card p-4 rounded-lg shadow-soft cursor-default select-none">
+          <div className="flex items-center gap-3 bg-gradient-card p-4 rounded-lg shadow-soft cursor-default select-none" role="group" aria-label="Currency toggle">
             <Label htmlFor="currency-toggle" className="text-sm font-medium text-foreground">
               AED
             </Label>
@@ -21,6 +21,7 @@ export const CurrencyToggle = ({ currency, onToggle }: CurrencyToggleProps) => {
               checked={currency === 'USD'}
               onCheckedChange={(checked) => onToggle(checked ? 'USD' : 'AED')}
               className="data-[state=checked]:bg-primary"
+              aria-label="Toggle currency between United Arab Emirates Dirham and United States Dollar"
             />
             <Label htmlFor="currency-toggle" className="text-sm font-medium text-foreground">
               USD

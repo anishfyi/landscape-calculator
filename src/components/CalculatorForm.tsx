@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -29,6 +29,41 @@ export const CalculatorForm = ({ onCalculate, isCalculating }: CalculatorFormPro
     lighting: false,
     artificialGrass: false,
   });
+  const [remember, setRemember] = useState<boolean>(false);
+
+  // Persist last values (opt‑in key)
+  const storageKey = 'landscape_calc_last_inputs_v1';
+  const storageEnabledKey = 'landscape_calc_persist_enabled_v1';
+  useEffect(() => {
+    const enabled = localStorage.getItem(storageEnabledKey) === 'true';
+    setRemember(enabled);
+    if (enabled) {
+      const stored = localStorage.getItem(storageKey);
+      if (stored) {
+        try {
+          const parsed = JSON.parse(stored) as { size: string; budget: string; features: typeof features };
+          if (parsed && typeof parsed === 'object') {
+            setSize(parsed.size ?? "");
+            setBudget(parsed.budget ?? "");
+            setFeatures(prev => ({ ...prev, ...(parsed.features ?? {}) }));
+          }
+        } catch {
+          // ignore JSON parse errors
+        }
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(storageEnabledKey, remember ? 'true' : 'false');
+      if (!remember) {
+        localStorage.removeItem(storageKey);
+      }
+    } catch {
+      // ignore storage errors
+    }
+  }, [remember]);
 
   const handleFeatureChange = (feature: keyof typeof features, checked: boolean) => {
     setFeatures(prev => ({ ...prev, [feature]: checked }));
@@ -43,6 +78,15 @@ export const CalculatorForm = ({ onCalculate, isCalculating }: CalculatorFormPro
       features,
       budget: budget as "economic" | "standard" | "highEnd" | "superHighEnd"
     });
+
+    // Save last values for convenience
+    if (remember) {
+      try {
+        localStorage.setItem(storageKey, JSON.stringify({ size, budget, features }));
+      } catch {
+        // ignore storage errors
+      }
+    }
   };
 
   const featureLabels = {
@@ -94,13 +138,14 @@ export const CalculatorForm = ({ onCalculate, isCalculating }: CalculatorFormPro
               }
             }}
             className="bg-input border-border focus:ring-primary"
+            aria-describedby="size-help size-error"
           />
-          <div className="flex items-start gap-2 text-xs text-muted-foreground">
+          <div id="size-help" className="flex items-start gap-2 text-xs text-muted-foreground">
             <Ruler className="h-3.5 w-3.5 mt-0.5" />
             <p>Tip: Measure the planned landscaped area only. Exclude driveways and built structures.</p>
           </div>
           {size !== "" && parseFloat(size) <= 0 && (
-            <div className="text-xs text-destructive">Please enter a size greater than zero.</div>
+            <div id="size-error" className="text-xs text-destructive">Please enter a size greater than zero.</div>
           )}
         </div>
 
@@ -163,6 +208,19 @@ export const CalculatorForm = ({ onCalculate, isCalculating }: CalculatorFormPro
           <Calculator className="mr-2 h-4 w-4" />
           {isCalculating ? "Calculating..." : "Calculate Costs"}
         </Button>
+
+        {/* Remember Inputs */}
+        <div className="flex items-center space-x-3 pt-1">
+          <Checkbox
+            id="remember"
+            checked={remember}
+            onCheckedChange={(c) => setRemember(!!c)}
+            className="border-border data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+          />
+          <Label htmlFor="remember" className="text-sm text-foreground cursor-pointer">
+            Remember inputs on this device
+          </Label>
+        </div>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ShieldCheck, Sparkles, Leaf } from "lucide-react";
 import { CalculatorForm } from "./CalculatorForm";
 import { PlanCard } from "./PlanCard";
@@ -16,6 +16,7 @@ export const LandscapeCalculator = () => {
   const [currency, setCurrency] = useState<'AED' | 'USD'>('AED');
   const [results, setResults] = useState<CalculationResult | null>(null);
   const [isCalculating, setIsCalculating] = useState(false);
+  const liveRegionRef = useRef<HTMLDivElement | null>(null);
 
   const handleCalculate = async (inputs: CalculationInputs) => {
     setIsCalculating(true);
@@ -26,13 +27,22 @@ export const LandscapeCalculator = () => {
     const baseCost = calculateBaseCost(inputs);
     const plans = calculatePaymentPlans(baseCost);
     
-    setResults({ baseCost, plans });
+    const next = { baseCost, plans } as CalculationResult;
+    setResults(next);
     setIsCalculating(false);
   };
 
   const convertAmount = (amount: number) => {
     return currency === 'USD' ? convertCurrency(amount, true) : amount;
   };
+
+  useEffect(() => {
+    if (!results || !liveRegionRef.current) return;
+    const total = Object.values(results.plans)[0]?.totalCost;
+    if (typeof total === 'number') {
+      liveRegionRef.current.textContent = `Results updated. Total cost ${Math.round(total)} in ${currency}.`;
+    }
+  }, [results, currency]);
 
   return (
     <div className="min-h-screen bg-gradient-background">
@@ -95,6 +105,12 @@ export const LandscapeCalculator = () => {
               {/* Results */}
               {results ? (
                 <div className="space-y-6">
+                  <div
+                    ref={liveRegionRef}
+                    role="status"
+                    aria-live="polite"
+                    className="sr-only"
+                  />
                   <div className="text-center">
                     <h3 className="text-2xl font-bold text-foreground mb-2">
                       Payment Plans Available

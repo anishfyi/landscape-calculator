@@ -61,6 +61,7 @@ export interface CalculationResult {
 
 export const calculateBaseCost = (inputs: CalculationInputs): number => {
   let baseCost = 0;
+  const safeSize = Number.isFinite(inputs.size) ? Math.max(0, inputs.size) : 0;
 
   Object.entries(inputs.features).forEach(([feature, isSelected]) => {
     if (isSelected && FEATURE_COSTS[feature as keyof typeof FEATURE_COSTS]) {
@@ -69,7 +70,7 @@ export const calculateBaseCost = (inputs: CalculationInputs): number => {
       if (feature === 'pool' && 'fixedUnits' in featureCost) {
         baseCost += featureCost.cost * featureCost.fixedUnits;
       } else if (featureCost.unit === 'm²') {
-        baseCost += featureCost.cost * inputs.size;
+        baseCost += featureCost.cost * safeSize;
       } else {
         baseCost += featureCost.cost;
       }
@@ -113,8 +114,11 @@ export const formatCurrency = (amount: number, currency: 'AED' | 'USD'): string 
     style: 'currency',
     currency: currency,
     minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
+    maximumFractionDigits: 2,
   });
-  
   return formatter.format(amount);
+};
+
+export const toFixedDisplay = (value: number, fractionDigits = 3): string => {
+  return Number.isFinite(value) ? value.toFixed(fractionDigits) : String(value);
 };

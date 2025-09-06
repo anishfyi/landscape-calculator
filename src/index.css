@@ -6,9 +6,9 @@
 
 @layer base {
   :root {
-    /* Base colors */
-    --background: 30 22% 98%; /* warm parchment */
-    --foreground: 210 24% 14%; /* deep ink */
+    /* Base colors - premium light theme */
+    --background: 0 0% 100%; /* pure white */
+    --foreground: 222 47% 11%; /* slate-900 */
 
     /* Card system */
     --card: 0 0% 100%;
@@ -17,21 +17,21 @@
     --popover: 0 0% 100%;
     --popover-foreground: 210 24% 14%;
 
-    /* Primary - Botanical emerald */
-    --primary: 158 64% 40%;
+    /* Primary accent - elegant teal (#0ea5a4) */
+    --primary: 176 84% 34%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 158 64% 58%;
+    --primary-glow: 176 84% 46%;
 
     /* Secondary - Moss */
     --secondary: 82 22% 92%;
     --secondary-foreground: 210 24% 14%;
 
     /* Muted tones */
-    --muted: 210 16% 95%;
-    --muted-foreground: 210 10% 40%;
+    --muted: 210 20% 97%;
+    --muted-foreground: 215 16% 35%;
 
-    /* Accent - Sunlit amber */
-    --accent: 37 92% 55%;
+    /* Secondary accent (subtle blue‑teal) */
+    --accent: 190 90% 42%;
     --accent-foreground: 0 0% 100%;
 
     /* Status colors */
@@ -45,17 +45,17 @@
     --destructive-foreground: 0 0% 100%;
 
     /* Form elements */
-    --border: 210 16% 88%;
-    --input: 210 16% 96%;
-    --ring: 158 64% 40%;
+    --border: 214 32% 91%;
+    --input: 214 32% 97%;
+    --ring: 176 84% 34%;
 
     /* Design tokens */
     --radius: 0.9rem;
     
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(158 64% 40%), hsl(158 64% 58%));
-    --gradient-background: linear-gradient(135deg, hsl(30 22% 98%), hsl(82 22% 96%));
-    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%), hsl(210 16% 98%));
+    --gradient-primary: linear-gradient(135deg, hsl(176 84% 34%), hsl(176 84% 46%));
+    --gradient-background: linear-gradient(135deg, hsl(0 0% 100%), hsl(210 20% 98%));
+    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%), hsl(210 20% 98%));
     
     /* Shadows */
     --shadow-soft: 0 6px 24px -6px hsl(210 20% 20% / 0.08);
