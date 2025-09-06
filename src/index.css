@@ -130,3 +130,11 @@
     @apply bg-background text-foreground antialiased;
   }
 }
+
+/* Global safety helpers */
+@layer utilities {
+  .break-anywhere {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+}

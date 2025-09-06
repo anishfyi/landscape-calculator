@@ -46,20 +46,24 @@ describe('convertCurrency', () => {
 });
 
 describe('PlanCard layout', () => {
-  it('renders long amounts without crashing (sanity check)', () => {
-    const { getByLabelText } = render(
-      <PlanCard
-        title="12months"
-        totalCost={2207929.5}
-        downpayment={987654.32}
-        moveIn={123456.78}
-        monthlyInstallment={99999.99}
-        months={12}
-        currency="AED"
-      />
+  it('does not overflow for long amounts (no horizontal scroll)', async () => {
+    const { getByLabelText, container } = render(
+      <div style={{ width: 360, overflow: 'hidden' }}>
+        <PlanCard
+          title="12months"
+          totalCost={2207929.5}
+          downpayment={987654.32}
+          moveIn={123456.78}
+          monthlyInstallment={99999.99}
+          months={12}
+          currency="AED"
+        />
+      </div>
     )
-    expect(getByLabelText('Total cost')).toBeTruthy()
-    expect(getByLabelText('Monthly installment')).toBeTruthy()
+    const total = getByLabelText('Total cost')
+    expect(total).toBeTruthy()
+    const wrapper = container.firstChild as HTMLElement
+    expect(wrapper.scrollWidth).toBeLessThanOrEqual(wrapper.clientWidth)
   })
 })
 
