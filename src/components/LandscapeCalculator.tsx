@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ShieldCheck, Sparkles, Leaf } from "lucide-react";
 import { CalculatorForm } from "./CalculatorForm";
 import { PlanCard } from "./PlanCard";
 import { CurrencyToggle } from "./CurrencyToggle";
@@ -42,15 +43,29 @@ export const LandscapeCalculator = () => {
           alt="Landscape Calculator"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-primary-glow/60" />
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/85 to-primary-glow/60 mix-blend-multiply" />
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center text-primary-foreground">
-            <h1 className="text-3xl md:text-5xl font-bold mb-4">
+          <div className="text-center text-primary-foreground px-4">
+            <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-3">
               Landscape Cost Calculator
             </h1>
-            <p className="text-lg md:text-xl opacity-90 max-w-2xl mx-auto px-4">
-              Plan your dream outdoor space with accurate cost estimates and flexible payment options
+            <p className="text-base md:text-xl opacity-95 max-w-2xl mx-auto">
+              Plan your dream outdoor space with precise estimates and flexible financing
             </p>
+            <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
+              <div className="flex items-center gap-2 rounded-full bg-background/20 backdrop-blur px-3 py-1.5 text-sm shadow-soft">
+                <ShieldCheck className="h-4 w-4" />
+                <span>Trusted estimates</span>
+              </div>
+              <div className="flex items-center gap-2 rounded-full bg-background/20 backdrop-blur px-3 py-1.5 text-sm shadow-soft">
+                <Sparkles className="h-4 w-4" />
+                <span>Premium materials</span>
+              </div>
+              <div className="flex items-center gap-2 rounded-full bg-background/20 backdrop-blur px-3 py-1.5 text-sm shadow-soft">
+                <Leaf className="h-4 w-4" />
+                <span>Sustainable options</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>

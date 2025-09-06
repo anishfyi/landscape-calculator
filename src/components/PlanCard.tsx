@@ -36,7 +36,7 @@ export const PlanCard = ({
 
   return (
     <Card className={`bg-gradient-card shadow-medium border-border transition-all duration-300 hover:shadow-strong hover:scale-[1.02] ${
-      isPopular ? 'ring-2 ring-primary ring-opacity-50' : ''
+      isPopular ? 'ring-2 ring-primary/60' : ''
     }`}>
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
@@ -49,8 +49,8 @@ export const PlanCard = ({
             </CardTitle>
           </div>
           {isPopular && (
-            <Badge className="bg-accent text-accent-foreground text-xs px-2 py-1">
-              Popular
+            <Badge className="bg-accent text-accent-foreground text-[10px] px-2 py-1 uppercase tracking-wider">
+              Best Value
             </Badge>
           )}
         </div>
@@ -60,7 +60,7 @@ export const PlanCard = ({
         {/* Total Cost */}
         <div className="text-center p-4 bg-muted rounded-lg border border-border">
           <div className="text-sm text-muted-foreground mb-1">Total Cost</div>
-          <div className="text-2xl font-bold text-primary">
+          <div className="text-2xl font-extrabold text-primary">
             {formatCurrency(totalCost, currency)}
           </div>
         </div>

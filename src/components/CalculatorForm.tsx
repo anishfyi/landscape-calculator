@@ -4,7 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Calculator, Home } from "lucide-react";
+import { Calculator, Home, Info, Ruler, Settings2 } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { CalculationInputs } from "@/utils/calculations";
 
 interface CalculatorFormProps {
@@ -94,6 +95,10 @@ export const CalculatorForm = ({ onCalculate, isCalculating }: CalculatorFormPro
             }}
             className="bg-input border-border focus:ring-primary"
           />
+          <div className="flex items-start gap-2 text-xs text-muted-foreground">
+            <Ruler className="h-3.5 w-3.5 mt-0.5" />
+            <p>Tip: Measure the planned landscaped area only. Exclude driveways and built structures.</p>
+          </div>
           {size !== "" && parseFloat(size) <= 0 && (
             <div className="text-xs text-destructive">Please enter a size greater than zero.</div>
           )}
@@ -115,6 +120,10 @@ export const CalculatorForm = ({ onCalculate, isCalculating }: CalculatorFormPro
               <SelectItem value="superHighEnd">Super High End</SelectItem>
             </SelectContent>
           </Select>
+          <div className="text-xs text-muted-foreground flex items-center gap-1">
+            <Info className="h-3.5 w-3.5" />
+            <span>Higher tiers include premium materials, finishes, and craftsmanship multipliers.</span>
+          </div>
         </div>
 
         {/* Features Selection */}
@@ -122,7 +131,7 @@ export const CalculatorForm = ({ onCalculate, isCalculating }: CalculatorFormPro
           <Label className="text-sm font-medium text-foreground">
             Landscape Features
           </Label>
-          <div className="grid grid-cols-1 gap-3 max-h-64 overflow-y-auto">
+          <div className="grid grid-cols-1 gap-3 max-h-64 overflow-y-auto pr-1">
             {Object.entries(featureLabels).map(([key, label]) => (
               <div key={key} className="flex items-center space-x-3">
                 <Checkbox
