@@ -1,5 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { calculateBaseCost, calculatePaymentPlans, convertCurrency, FEATURE_COSTS, BUDGET_MULTIPLIERS } from './calculations';
+import { render } from '@testing-library/react'
+import React from 'react'
+import { PlanCard } from '@/components/PlanCard'
 
 const baseFeatures = Object.keys(FEATURE_COSTS).reduce((acc, key) => ({...acc, [key]: false}), {} as any);
 
@@ -41,5 +44,23 @@ describe('convertCurrency', () => {
     expect(aed).toBeCloseTo(100);
   });
 });
+
+describe('PlanCard layout', () => {
+  it('renders long amounts without crashing (sanity check)', () => {
+    const { getByLabelText } = render(
+      <PlanCard
+        title="12months"
+        totalCost={2207929.5}
+        downpayment={987654.32}
+        moveIn={123456.78}
+        monthlyInstallment={99999.99}
+        months={12}
+        currency="AED"
+      />
+    )
+    expect(getByLabelText('Total cost')).toBeTruthy()
+    expect(getByLabelText('Monthly installment')).toBeTruthy()
+  })
+})
 
 

@@ -11,11 +11,12 @@ import { CalculationInputs } from "@/utils/calculations";
 interface CalculatorFormProps {
   onCalculate: (inputs: CalculationInputs) => void;
   isCalculating: boolean;
+  initialInputs?: CalculationInputs;
 }
 
-export const CalculatorForm = ({ onCalculate, isCalculating }: CalculatorFormProps) => {
-  const [size, setSize] = useState<string>("");
-  const [budget, setBudget] = useState<string>("");
+export const CalculatorForm = ({ onCalculate, isCalculating, initialInputs }: CalculatorFormProps) => {
+  const [size, setSize] = useState<string>(initialInputs ? String(initialInputs.size) : "");
+  const [budget, setBudget] = useState<string>(initialInputs?.budget ?? "");
   const [features, setFeatures] = useState({
     tiles: false,
     pool: false,
@@ -35,6 +36,11 @@ export const CalculatorForm = ({ onCalculate, isCalculating }: CalculatorFormPro
   const storageKey = 'landscape_calc_last_inputs_v1';
   const storageEnabledKey = 'landscape_calc_persist_enabled_v1';
   useEffect(() => {
+    if (initialInputs) {
+      setSize(String(initialInputs.size));
+      setBudget(initialInputs.budget);
+      setFeatures(prev => ({ ...prev, ...(initialInputs.features || {}) }));
+    }
     const enabled = localStorage.getItem(storageEnabledKey) === 'true';
     setRemember(enabled);
     if (enabled) {

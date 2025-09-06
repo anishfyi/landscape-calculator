@@ -37,16 +37,16 @@ export const PlanCard = ({
   };
 
   return (
-    <Card className={`bg-gradient-card shadow-medium border-border transition-all duration-300 hover:shadow-strong hover:scale-[1.02] ${
+    <Card className={`bg-gradient-card shadow-medium border-border transition-all duration-300 hover:shadow-strong hover:scale-[1.02] min-w-0 ${
       isPopular ? 'ring-2 ring-primary/60' : ''
     }`}>
-      <CardHeader className="pb-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
+      <CardHeader className="pb-3 min-w-0">
+        <div className="flex items-center justify-between min-w-0">
+          <div className="flex items-center gap-2 min-w-0">
             <div className="p-1.5 bg-gradient-primary rounded-md">
               {getIcon()}
             </div>
-            <CardTitle className="text-lg font-bold text-foreground">
+            <CardTitle className="text-lg font-bold text-foreground truncate">
               {formatTitle(title)}
             </CardTitle>
           </div>
@@ -58,21 +58,21 @@ export const PlanCard = ({
         </div>
       </CardHeader>
       
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-4 min-w-0">
         {/* Total Cost */}
         <div className="text-center p-4 bg-muted rounded-lg border border-border">
           <div className="text-sm text-muted-foreground mb-1">Total Cost</div>
-          <div className="text-2xl font-extrabold text-primary" title={`Raw: ${toFixedDisplay(totalCost)}`}>
+          <div className="font-extrabold text-primary leading-tight break-words" style={{ fontSize: "clamp(1.25rem, 3.5vw, 2.25rem)" }} title={`Raw: ${toFixedDisplay(totalCost)}`}>
             <AnimatedNumber value={totalCost} format={(n) => formatCurrency(n, currency)} ariaLabel="Total cost" />
           </div>
         </div>
 
         {/* Payment Breakdown */}
         <div className="space-y-3">
-          <div className="flex items-center justify-between p-3 bg-background rounded-lg border border-border">
-            <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between p-3 bg-background rounded-lg border border-border min-w-0">
+            <div className="flex items-center gap-2 min-w-0">
               <CreditCard className="h-4 w-4 text-muted-foreground" />
-              <span className="text-sm font-medium text-foreground">Down Payment</span>
+              <span className="text-sm font-medium text-foreground break-words">Down Payment</span>
             </div>
             <span
               className="font-semibold text-foreground"
@@ -82,10 +82,10 @@ export const PlanCard = ({
             </span>
           </div>
 
-          <div className="flex items-center justify-between p-3 bg-background rounded-lg border border-border">
-            <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between p-3 bg-background rounded-lg border border-border min-w-0">
+            <div className="flex items-center gap-2 min-w-0">
               <Home className="h-4 w-4 text-muted-foreground" />
-              <span className="text-sm font-medium text-foreground">Move-In Payment</span>
+              <span className="text-sm font-medium text-foreground break-words">Move-In Payment</span>
             </div>
             <span
               className="font-semibold text-foreground"
@@ -95,13 +95,13 @@ export const PlanCard = ({
             </span>
           </div>
 
-          <div className="flex items-center justify-between p-3 bg-success/10 rounded-lg border border-success/20">
-            <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between p-3 bg-success/10 rounded-lg border border-success/20 min-w-0">
+            <div className="flex items-center gap-2 min-w-0">
               <Calendar className="h-4 w-4 text-success" />
               <span className="text-sm font-medium text-success">EMI</span>
             </div>
             <span
-              className="font-bold text-success"
+              className="font-bold text-success leading-tight break-words"
               title={`Raw: ${toFixedDisplay(monthlyInstallment)}`}
             >
               <AnimatedNumber value={monthlyInstallment} format={(n) => formatCurrency(n, currency)} ariaLabel="Monthly installment" />
@@ -113,15 +113,15 @@ export const PlanCard = ({
           {months} monthly payments of {formatCurrency(monthlyInstallment, currency)}
         </div>
 
-        <div className="flex items-center justify-end gap-2 pt-1">
-          <Button variant="secondary" size="sm" aria-label="Copy result to clipboard">
-            <Copy className="h-3.5 w-3.5 mr-1" /> Copy
+        <div className="actions flex items-center justify-end gap-3 pt-1 flex-wrap w-full">
+          <Button variant="secondary" size="sm" className="inline-flex items-center gap-2 px-3 py-2 min-w-[88px] whitespace-nowrap" aria-label="Copy results to clipboard">
+            <Copy className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Copy</span>
           </Button>
-          <Button variant="secondary" size="sm" aria-label="Download results as comma separated values">
-            <Download className="h-3.5 w-3.5 mr-1" /> CSV
+          <Button variant="secondary" size="sm" className="inline-flex items-center gap-2 px-3 py-2 min-w-[88px] whitespace-nowrap" aria-label="Download results as comma separated values">
+            <Download className="h-3.5 w-3.5" /> <span className="hidden sm:inline">CSV</span>
           </Button>
-          <Button variant="secondary" size="sm" aria-label="Share results link">
-            <Share2 className="h-3.5 w-3.5 mr-1" /> Share
+          <Button variant="secondary" size="sm" className="inline-flex items-center gap-2 px-3 py-2 min-w-[88px] whitespace-nowrap" aria-label="Share results link">
+            <Share2 className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Share</span>
           </Button>
         </div>
       </CardContent>
